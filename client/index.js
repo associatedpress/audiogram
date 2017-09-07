@@ -4,7 +4,7 @@ var d3 = require("d3"),
     video = require("./video.js"),
     audio = require("./audio.js");
 
-d3.json("/settings/themes.json", function(err, themes){
+d3.json(window.location.protocol + "//" + window.location.host + "/settings/themes.json", function(err, themes){
 
   var errorMessage;
 
