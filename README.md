@@ -86,6 +86,53 @@ Ultimately we had a few priorities in how we set this up, knowing that we would 
 
 ## License
 
+## Docker Install steps
+
+Clone the app:
+
+* git clone git@github.com:associatedpress/audiogram.git
+
+CD into the audiogram directory:
+
+Build the app:
+
+* docker build -t audiogram .
+
+If you need to rebuild the app completely, use this command:
+
+* * docker build --no-cache -t audiogram .
+
+Login to docker image:
+
+* docker run -p 8890:8888 -t -i audiogram
+
+If you logged into the image, you can run npm start. But otherwise, follow steps below.
+
+Run from terminal (outside of docker image):
+
+* docker run -p 8890:8888 -t -i audiogram npm start
+
+Run from outside of docker image as a daemon:
+
+* docker run -p 8890:8888 -d audiogram npm start
+
+
+## Example Nginx reverse proxy
+
+<pre>
+server {
+  listen       80;
+  server_name  audiogram.inside.ap.org;
+  access_log   /var/log/nginx/audiogram.access.log;
+  error_log    /var/log/nginx/audiogram.error.log;
+  location / {
+    proxy_pass        http://localhost:8890;
+    proxy_buffering   off;
+    proxy_set_header   Host $host;
+  }
+}
+</pre>
+
 Copyright (c) 2016 New York Public Radio
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
